@@ -15,7 +15,7 @@ const ItemList = ({
 	removeItems,
 }: Props) => {
 	return (
-		<div className="mt-4">
+		<div className="mt-4" style={{ margin: "20px" }}>
 			{items.map((item) => (
 				<SingleItem
 					items={items}

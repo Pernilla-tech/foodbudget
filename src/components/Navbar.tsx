@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Navbar as NavbarBs, Nav, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
@@ -10,8 +9,8 @@ const Navbar = () => {
 					<Nav.Link to="/" as={NavLink}>
 						Hem
 					</Nav.Link>
-					<Nav.Link to="/about" as={NavLink}>
-						Om oss
+					<Nav.Link to="/history" as={NavLink}>
+						Historik
 					</Nav.Link>
 				</Nav>
 			</Container>

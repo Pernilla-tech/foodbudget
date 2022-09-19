@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Container, Card } from "react-bootstrap";
-import About from "./pages/About";
+import History from "./pages/History";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import InputField from "./components/InputField";
@@ -8,6 +8,8 @@ import { useState } from "react";
 import ItemList from "./components/ItemList";
 import { AdjustItemQuantity, ItemModel, RemoveItems } from "./models/Model";
 import { readLocalstorage, useLocalStorage } from "./hooks/useLocalStorage";
+import SearchBar from "./components/SearchBar";
+import Accordion from "react-bootstrap/Accordion";
 
 function App() {
 	const [items, setItems] = useState<Array<ItemModel>>(readLocalstorage);
@@ -84,36 +86,52 @@ function App() {
 	}, 0); //hämtar alla värden från kategorierna.
 
 	return (
-		<>
+		<div>
 			<Navbar />
 			<Container style={{ background: "white" }}>
 				<Routes>
 					<Route path="/" element={<Home />} />
-					<Route path="/about" element={<About />} />
+					<Route path="/history" element={<History />} />
 				</Routes>
-				<InputField handleAdd={handleAdd} />
-				<ItemList
-					items={items}
-					setItems={setItems}
-					adjustItemQuantity={adjustItemQuantity}
-					removeItems={removeItems}
-				/>
 
+				<InputField handleAdd={handleAdd} />
+
+				<Accordion defaultActiveKey="0">
+					<Accordion.Item eventKey="0">
+						<Accordion.Header>Lista på alla tillagda varor</Accordion.Header>
+						<Accordion.Body>
+							<ItemList
+								items={items}
+								setItems={setItems}
+								adjustItemQuantity={adjustItemQuantity}
+								removeItems={removeItems}
+							/>
+						</Accordion.Body>
+					</Accordion.Item>
+				</Accordion>
+
+				<Accordion defaultActiveKey="0">
+					<Accordion.Item eventKey="1">
+						<Accordion.Header>Lista på katergorier och priser</Accordion.Header>
+						<Accordion.Body>
+							{categoryTotalsArray.map((categoryTotal) => {
+								return (
+									<div className="mb-2" style={{ background: "lightGray" }}>
+										{categoryTotal.category} Totalt: {categoryTotal.total} kr
+									</div>
+								);
+							})}
+						</Accordion.Body>
+					</Accordion.Item>
+				</Accordion>
+				<SearchBar placeholder="Sök efter varor" data={items} />
 				<Card>
 					<Card.Body>
-						{categoryTotalsArray.map((categoryTotal) => {
-							return (
-								<div className="mb-2" style={{ background: "lightGray" }}>
-									{categoryTotal.category} Totalt: {categoryTotal.total} kr
-								</div>
-							);
-						})}
-
 						<Card.Title>Totalt: {totalTotals} kr</Card.Title>
 					</Card.Body>
 				</Card>
 			</Container>
-		</>
+		</div>
 	);
 }
 
