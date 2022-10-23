@@ -8,14 +8,20 @@ interface Props {
 
 const InputField = ({ handleAdd }: Props) => {
 	const [item, setItem] = useState<string>("");
-	const [price, setPrice] = useState<number>(0);
+	const [price, setPrice] = useState<string>("");
 	const [category, setCategory] = useState<string>("");
 
 	const onSubmit = (e: React.FormEvent) => {
-		handleAdd({ id: Date.now(), item, price, quantity: 1, category });
+		handleAdd({
+			id: Date.now(),
+			item,
+			price: parseFloat(price),
+			quantity: 1,
+			category,
+		});
 		e.preventDefault();
 		setItem("");
-		setPrice(0);
+		setPrice("");
 		setCategory("");
 	};
 
@@ -38,8 +44,7 @@ const InputField = ({ handleAdd }: Props) => {
 					aria-label="price"
 					aria-describedby="basic-addon1"
 					value={price}
-					type="number"
-					onChange={(e) => setPrice(parseInt(e.target.value))}
+					onChange={(e) => setPrice(e.target.value)}
 				/>
 			</InputGroup>
 
@@ -57,6 +62,7 @@ const InputField = ({ handleAdd }: Props) => {
 				<option value="Köksartiklar">Köksartiklar</option>
 				<option value="Kött">Kött</option>
 				<option value="Mejeriprodukter">Mejeriprodukter</option>
+				<option value="Rabatt">Rabatt</option>
 				<option value="Skafferi">Skafferi</option>
 				<option value="Snacks">Snacks</option>
 				<option value="Såser">Såser</option>
