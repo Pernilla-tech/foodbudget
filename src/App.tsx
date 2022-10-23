@@ -4,7 +4,7 @@ import History from "./pages/History";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import InputField from "./components/InputField";
-import { useState } from "react";
+import React, { useState } from "react";
 import ItemList from "./components/ItemList";
 import { AdjustItemQuantity, ItemModel, RemoveItems } from "./models/Model";
 import { readLocalstorage, useLocalStorage } from "./hooks/useLocalStorage";
@@ -20,6 +20,9 @@ function App() {
 		console.log(item);
 
 		if (item) {
+			if (item.category === "Rabatt" && item.price > 0) {
+				item.price = -item.price;
+			}
 			setItems([...items, item]);
 		}
 	};
@@ -72,6 +75,7 @@ function App() {
 	// -> [ {category: 'mejeri', total: 123}, { category: 'hushall', total: 456 }, ..... ]
 	// Object.keys(categoryyTotals) --> ['mejeri','hushall',......]
 	//
+
 	const categoryTotalsArray: CategoryTotalsArray = Object.keys(
 		categoryTotals
 	).map((key) => {
@@ -114,20 +118,42 @@ function App() {
 					<Accordion.Item eventKey="1">
 						<Accordion.Header>Lista på katergorier och priser</Accordion.Header>
 						<Accordion.Body>
-							{categoryTotalsArray.map((categoryTotal) => {
-								return (
-									<div className="mb-2" style={{ background: "lightGray" }}>
-										{categoryTotal.category} Totalt: {categoryTotal.total} kr
-									</div>
-								);
-							})}
+							<div>
+								{categoryTotalsArray.map((categoryTotal) => {
+									return (
+										<div className="mb-2" style={{ background: "#91b9f4" }}>
+											{categoryTotal.category} Totalt: {categoryTotal.total} kr
+											<Accordion defaultActiveKey="0">
+												<Accordion.Item eventKey="1">
+													<Accordion.Header>
+														{categoryTotal.category}
+													</Accordion.Header>
+													<Accordion.Body>
+														{items
+															.filter((item) => {
+																return item.category == categoryTotal.category;
+															})
+															.map((item) => (
+																<ul>
+																	<li>
+																		{item.item} {item.price} kr
+																	</li>
+																</ul>
+															))}
+													</Accordion.Body>
+												</Accordion.Item>
+											</Accordion>
+										</div>
+									);
+								})}
+							</div>
 						</Accordion.Body>
 					</Accordion.Item>
 				</Accordion>
 				<SearchBar placeholder="Sök efter varor" data={items} />
 				<Card>
 					<Card.Body>
-						<Card.Title>Totalt: {totalTotals} kr</Card.Title>
+						<Card.Title>Totalt: {totalTotals}kr</Card.Title>
 					</Card.Body>
 				</Card>
 			</Container>
