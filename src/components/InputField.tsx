@@ -26,10 +26,13 @@ const InputField = ({ handleAdd }: Props) => {
 	};
 
 	return (
-		<form onSubmit={onSubmit}>
+		<form
+			onSubmit={onSubmit}
+			style={{ display: "flex", flexDirection: "column" }}
+		>
 			<InputGroup>
 				<Form.Control
-					placeholder="Lägg till livsmedel"
+					placeholder="Lägg till livsmedel eller rabatt"
 					aria-label="livsmedel"
 					aria-describedby="basic-addon1"
 					value={item}
@@ -40,7 +43,7 @@ const InputField = ({ handleAdd }: Props) => {
 
 			<InputGroup>
 				<Form.Control
-					placeholder="Varans pris"
+					placeholder="Varans pris eller rabattens värde"
 					aria-label="price"
 					aria-describedby="basic-addon1"
 					value={price}
@@ -73,7 +76,13 @@ const InputField = ({ handleAdd }: Props) => {
 
 			<Button
 				type="submit"
-				style={{ width: "100%", height: "3rem" }}
+				style={{
+					margin: "16px",
+					width: "50%",
+					height: "3rem",
+					backgroundColor: "#ff6b35",
+					alignSelf: "center",
+				}}
 				disabled={!item || !price || !category}
 			>
 				+
