@@ -1,11 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import { Container, Card } from "react-bootstrap";
+import { Container, Card, Button } from "react-bootstrap";
 import History from "./pages/History";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import InputField from "./components/InputField";
-import React, { useState } from "react";
+import { useState } from "react";
+import "../public/styles.css";
 import ItemList from "./components/ItemList";
+
 import { AdjustItemQuantity, ItemModel, RemoveItems } from "./models/Model";
 import { readLocalstorage, useLocalStorage } from "./hooks/useLocalStorage";
 import SearchBar from "./components/SearchBar";
@@ -13,7 +15,8 @@ import Accordion from "react-bootstrap/Accordion";
 
 function App() {
 	const [items, setItems] = useState<Array<ItemModel>>(readLocalstorage);
-
+	const [sortProperty, setSortProperty] = useState<string>("");
+	const [sortProp, setSortProp] = useState<string>("");
 	useLocalStorage({ items });
 
 	const handleAdd = (item: ItemModel) => {
@@ -69,13 +72,6 @@ function App() {
 		return totals;
 	}, {});
 
-	items.sort((firstItem, secondItem) => firstItem.price - secondItem.price); //sorterar minsta priset för en vara - högsta priset för en vara
-
-	// categoryTotals = { mejeri: 123, hushall: 456, ... };
-	// -> [ {category: 'mejeri', total: 123}, { category: 'hushall', total: 456 }, ..... ]
-	// Object.keys(categoryyTotals) --> ['mejeri','hushall',......]
-	//
-
 	const categoryTotalsArray: CategoryTotalsArray = Object.keys(
 		categoryTotals
 	).map((key) => {
@@ -89,10 +85,43 @@ function App() {
 		return total + item;
 	}, 0); //hämtar alla värden från kategorierna.
 
+	// let categorys: undefined;
+
+	items.sort((firstItem, secondItem) => firstItem.price - secondItem.price); //sorterar minsta priset för en vara - högsta priset för en vara
+
+	// categoryTotals = { mejeri: 123, hushall: 456, ... };
+	// -> [ {category: 'mejeri', total: 123}, { category: 'hushall', total: 456 }, ..... ]
+	// Object.keys(categoryyTotals) --> ['mejeri','hushall',......]
+	//
+
+	console.log(items);
+
+	const sortByCategory = () => {
+		setSortProperty("category");
+	};
+	const sortByHighestPrice = () => {
+		setSortProperty("priceHighest");
+	};
+	const sortByLowestPrice = () => {
+		setSortProperty("priceLowest");
+	};
+	const sortByItem = () => {
+		setSortProperty("item");
+	};
+
+	const sortedItems = [...items].sort((a, b) => {
+		if (sortProperty === "category")
+			return a.category.localeCompare(b.category);
+		else if (sortProperty === "priceHighest") return b.price - a.price;
+		else if (sortProperty === "priceLowest") return a.price - b.price;
+		else if (sortProperty === "item") return a.item.localeCompare(b.item);
+		else return 0;
+	});
+
 	return (
-		<div>
+		<div className="app">
 			<Navbar />
-			<Container style={{ background: "white" }}>
+			<Container>
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/history" element={<History />} />
@@ -101,11 +130,21 @@ function App() {
 				<InputField handleAdd={handleAdd} />
 
 				<Accordion defaultActiveKey="0">
-					<Accordion.Item eventKey="0">
+					<Accordion.Item eventKey="1">
 						<Accordion.Header>Lista på alla tillagda varor</Accordion.Header>
 						<Accordion.Body>
+							<div className="sortButtons">
+								<Button onClick={sortByCategory}>Kategori</Button>
+								<Button onClick={sortByHighestPrice}>
+									Pris dyrast-billigast
+								</Button>
+								<Button onClick={sortByLowestPrice}>
+									Pris billigast-dyrast
+								</Button>
+								<Button onClick={sortByItem}>Namn A-Ö</Button>
+							</div>
 							<ItemList
-								items={items}
+								items={sortedItems}
 								setItems={setItems}
 								adjustItemQuantity={adjustItemQuantity}
 								removeItems={removeItems}

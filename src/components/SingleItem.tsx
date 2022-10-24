@@ -2,10 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { AdjustItemQuantity, ItemModel, RemoveItems } from "../models/Model";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-	SettingsRemoteSharp,
-	SettingsSystemDaydreamSharp,
-} from "@mui/icons-material";
 
 const SingleItem: React.FC<{
 	item: ItemModel;
