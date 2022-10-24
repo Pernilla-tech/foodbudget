@@ -1,0 +1,16 @@
+html, body {
+    background-color: #1d3557;
+}
+
+.app {
+  background-color: #1d3557;
+}
+
+
+h1 {
+  color: #ffff;
+}
+
+.sortButtons Button {
+    margin: 4px;
+}
