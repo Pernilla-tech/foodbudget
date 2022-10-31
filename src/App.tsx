@@ -2,7 +2,6 @@ import MainView from "./mainView";
 import {
 	browserLocalPersistence,
 	setPersistence,
-	signOut,
 } from "firebase/auth";
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { auth } from "./firebaseApp";

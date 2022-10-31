@@ -119,7 +119,7 @@ function mainView() {
 	//
 
 	return (
-		<div className="app">
+		<div className="mainview">
 			<Navbar />
 			<Container>
 				<Routes>
