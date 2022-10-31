@@ -24,13 +24,13 @@ const Navbar = () => {
 					</Nav.Link>
 
 				</Nav>
-				<div style={{ display: "flex" }}>
+				<div style={{ display: "flex", alignItems: "center" }}>
 					{user ? (
 						<><img style={{
 							borderRadius: "50px",
 							height: "30px"
 						}} src={user.photoURL || ""} />
-							<p style={{ margin: "0", paddingRight: "4px", paddingLeft: "4px" }}> {user.displayName}</p></>
+							<p style={{ margin: "0", paddingRight: "10px", paddingLeft: "5px" }}>{user.displayName}</p></>
 					) : (
 						null
 					)

@@ -41,7 +41,7 @@ const App = () => {
 
 	return (
 		<div className="App">
-			<div className="login__container">
+			<div style={{ display: "flex", alignItems: "center", flexDirection: "column", marginTop: "25%" }}>
 				<h1 style={{ color: "white", padding: "24px" }}>
 					Keep track of your budget
 				</h1>
