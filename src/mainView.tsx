@@ -4,7 +4,7 @@ import History from "./pages/History";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import InputField from "./components/InputField";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import "../public/styles.css";
 import ItemList from "./components/ItemList";
 
@@ -13,9 +13,10 @@ import { readLocalstorage, useLocalStorage } from "./hooks/useLocalStorage";
 import SearchBar from "./components/SearchBar";
 import Accordion from "react-bootstrap/Accordion";
 
-function App() {
+function mainView() {
 	const [items, setItems] = useState<Array<ItemModel>>(readLocalstorage);
 	const [sortProperty, setSortProperty] = useState<string>("");
+
 	useLocalStorage({ items });
 
 	const handleAdd = (item: ItemModel) => {
@@ -27,6 +28,31 @@ function App() {
 			}
 			setItems([...items, item]);
 		}
+	};
+
+	const sortedItems = useMemo(() => {
+		const sorted = [...items].sort((a, b) => {
+			if (sortProperty === "category")
+				return a.category.localeCompare(b.category);
+			else if (sortProperty === "priceHighest") return b.price - a.price;
+			else if (sortProperty === "priceLowest") return a.price - b.price;
+			else if (sortProperty === "item") return a.item.localeCompare(b.item);
+			else return 0;
+		});
+		return sorted;
+	}, [items, sortProperty]);
+
+	const sortByCategory = () => {
+		setSortProperty("category");
+	};
+	const sortByHighestPrice = () => {
+		setSortProperty("priceHighest");
+	};
+	const sortByLowestPrice = () => {
+		setSortProperty("priceLowest");
+	};
+	const sortByItem = () => {
+		setSortProperty("item");
 	};
 
 	const adjustItemQuantity: AdjustItemQuantity = (id, delta) => {
@@ -92,28 +118,6 @@ function App() {
 	// -> [ {category: 'mejeri', total: 123}, { category: 'hushall', total: 456 }, ..... ]
 	// Object.keys(categoryyTotals) --> ['mejeri','hushall',......]
 	//
-
-	const sortByCategory = () => {
-		setSortProperty("category");
-	};
-	const sortByHighestPrice = () => {
-		setSortProperty("priceHighest");
-	};
-	const sortByLowestPrice = () => {
-		setSortProperty("priceLowest");
-	};
-	const sortByItem = () => {
-		setSortProperty("item");
-	};
-
-	const sortedItems = [...items].sort((a, b) => {
-		if (sortProperty === "category")
-			return a.category.localeCompare(b.category);
-		else if (sortProperty === "priceHighest") return b.price - a.price;
-		else if (sortProperty === "priceLowest") return a.price - b.price;
-		else if (sortProperty === "item") return a.item.localeCompare(b.item);
-		else return 0;
-	});
 
 	return (
 		<div className="app">
@@ -197,4 +201,4 @@ function App() {
 	);
 }
 
-export default App;
+export default mainView;
