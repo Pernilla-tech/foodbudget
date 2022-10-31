@@ -7,7 +7,7 @@ import {
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { auth } from "./firebaseApp";
 import { Button } from "react-bootstrap";
-
+import "./styles.css";
 const App = () => {
 	const [user, loading, error] = useAuthState(auth);
 	const [signInWithGoogle, , gLoading, gError] = useSignInWithGoogle(auth);

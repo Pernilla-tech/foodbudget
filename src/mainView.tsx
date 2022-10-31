@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import InputField from "./components/InputField";
 import { useMemo, useState } from "react";
-import "../public/styles.css";
 import ItemList from "./components/ItemList";
 
 import { AdjustItemQuantity, ItemModel, RemoveItems } from "./models/Model";
