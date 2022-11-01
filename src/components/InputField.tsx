@@ -31,7 +31,7 @@ const InputField = ({ handleAdd }: Props) => {
 			style={{ display: "flex", flexDirection: "column" }}
 		>
 			<InputGroup>
-				<Form.Control
+				<Form.Control style={{ margin: "10px" }}
 					placeholder="Lägg till livsmedel eller rabatt"
 					aria-label="livsmedel"
 					aria-describedby="basic-addon1"
@@ -43,6 +43,7 @@ const InputField = ({ handleAdd }: Props) => {
 
 			<InputGroup>
 				<Form.Control
+					style={{ margin: "10px" }}
 					placeholder="Varans pris eller rabattens värde"
 					aria-label="price"
 					aria-describedby="basic-addon1"
@@ -52,6 +53,7 @@ const InputField = ({ handleAdd }: Props) => {
 			</InputGroup>
 
 			<Form.Select
+				style={{ margin: "10px", width: "auto" }}
 				aria-label="Default select example"
 				value={category}
 				onChange={(e) => setCategory(e.target.value)}
@@ -85,7 +87,7 @@ const InputField = ({ handleAdd }: Props) => {
 				}}
 				disabled={!item || !price || !category}
 			>
-				+
+				Add
 			</Button>
 		</form>
 	);
